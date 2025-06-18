@@ -204,6 +204,7 @@ public class MenúPrincipal extends JFrame implements ItemListener, ActionListen
 			}
 			{
 				btnStock = new JButton("Listar Libros");
+				btnStock.addActionListener(this);
 				btnStock.setEnabled(false);
 				btnStock.setBounds(375, 247, 193, 23);
 				contentPane_1.add(btnStock);
@@ -488,6 +489,9 @@ public class MenúPrincipal extends JFrame implements ItemListener, ActionListen
 		}
 	}
 	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == btnStock) {
+			do_btnStock_actionPerformed(e);
+		}
 		if (e.getSource() == btnListarCliente) {
 			do_btnListarCliente_actionPerformed(e);
 		}
