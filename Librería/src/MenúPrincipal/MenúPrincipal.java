@@ -266,6 +266,7 @@ public class MenúPrincipal extends JFrame implements ItemListener, ActionListen
 			}
 			{
 				btnDevolverLibro = new JButton("Devolver Libro");
+				btnDevolverLibro.addActionListener(this);
 				btnDevolverLibro.setBounds(47, 502, 192, 23);
 				contentPane_1.add(btnDevolverLibro);
 			}
@@ -491,6 +492,9 @@ public class MenúPrincipal extends JFrame implements ItemListener, ActionListen
 		}
 	}
 	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == btnDevolverLibro) {
+			do_btnDevolverLibro_actionPerformed(e);
+		}
 		if (e.getSource() == btnRentarLibro) {
 			do_btnRentarLibro_actionPerformed(e);
 		}
@@ -651,6 +655,31 @@ txtS1.setText("");
 		    }
 		    
 		    
+		}
+	}
+	protected void do_btnDevolverLibro_actionPerformed(ActionEvent e) {
+		int codigocliente = LeerCodigoClienteExistente();
+		int codigolibro = LeerCodigoLibroExistente();
+
+		Cliente c = admin.BuscarUsuarioRegistrado(codigocliente);
+		Libro l = admin.BuscarLibroGlobal(codigolibro);
+
+		if (c == null && l == null) {
+		    JOptionPane.showMessageDialog(this, "El código del cliente y el código del libro no existen.");
+		} else if (c == null) {
+		    JOptionPane.showMessageDialog(this, "El código del cliente no existe.");
+		} else if (l == null) {
+		    JOptionPane.showMessageDialog(this, "El código del libro no existe.");
+		} else {
+		    Libro libroRentado = c.BuscarLibro(codigolibro);
+		    if (libroRentado == null) {
+		        JOptionPane.showMessageDialog(this, "El cliente no tiene este libro rentado.");
+		    } else {
+		        c.DevolverLibro(libroRentado);
+		        JOptionPane.showMessageDialog(this, "Libro devuelto correctamente por " + c.getNombre());
+		        ListadoLibrosAdmintrador(admin.ObtenerListaGlobal());
+		        Listadolibrospararentar(admin.ObtenerListaGlobal());
+		    }
 		}
 	}
 }
