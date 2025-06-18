@@ -529,6 +529,32 @@ public class MenúPrincipal extends JFrame implements ItemListener, ActionListen
 		}
 	}
 	protected void do_btnBuscar_actionPerformed(ActionEvent e) {
+txtS1.setText("");
 		
+		int codigocliente = LeerCodigoCliente();
+		
+		Cliente c = admin.BuscarUsuarioRegistrado(codigocliente);
+		
+		if(c == null) {
+			JOptionPane.showMessageDialog(this, "El usuario que busca no existe");
+		}else {
+			ImprimirAdmin("CLIENTE ENCONTRADO:");
+			ImprimirAdmin("Nombre: " + c.getNombre());
+			ImprimirAdmin("Estado de Sanción: "+ c.getSancion());
+			ImprimirAdmin("Número ded sanciones: "+ c.getContadorSanciones());
+			
+			if(c.TamañoLibrosRentados() <= 0) {
+				ImprimirAdmin("Este usuario aún no tiene libros rentados.");
+			}else {
+				for(int i = 0; i < c.TamañoLibrosRentados();i++) {
+					Libro libro = c.ObtenerLibroRentado(i);
+					ImprimirAdmin("Libro " + (i + 1) + ": " + libro.getNombreLibro() + "\tFecha de renta: " + libro.getFecha());
+				}
+				
+				VaciarAdministrador();
+			}
+			
+			
+		}
 	}
 }
