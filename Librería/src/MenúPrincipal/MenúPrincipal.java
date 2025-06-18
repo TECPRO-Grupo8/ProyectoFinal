@@ -19,6 +19,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.event.ItemListener;
+import java.time.LocalDate;
 import java.util.List;
 import java.awt.event.ItemEvent;
 import java.awt.event.ActionListener;
@@ -259,6 +260,7 @@ public class MenúPrincipal extends JFrame implements ItemListener, ActionListen
 			}
 			{
 				btnRentarLibro = new JButton("Rentar Libro");
+				btnRentarLibro.addActionListener(this);
 				btnRentarLibro.setBounds(47, 457, 192, 23);
 				contentPane_1.add(btnRentarLibro);
 			}
@@ -489,6 +491,9 @@ public class MenúPrincipal extends JFrame implements ItemListener, ActionListen
 		}
 	}
 	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == btnRentarLibro) {
+			do_btnRentarLibro_actionPerformed(e);
+		}
 		if (e.getSource() == btnStock) {
 			do_btnStock_actionPerformed(e);
 		}
@@ -613,6 +618,39 @@ txtS1.setText("");
 		}else {
 			
 			ListadoLibrosAdmintrador(admin.ObtenerListaGlobal());
+		}
+	}
+	protected void do_btnRentarLibro_actionPerformed(ActionEvent e) {
+		int codigocliente = LeerCodigoClienteExistente();
+		int codigolibro = LeerCodigoLibroExistente();
+		
+		Cliente c = admin.BuscarUsuarioRegistrado(codigocliente);
+		Libro l = admin.BuscarLibroGlobal(codigolibro);
+		
+		if (c == null && l == null) {
+		    JOptionPane.showMessageDialog(this, "El código del cliente y el código del libro no existen.");
+		} else if (c == null) {
+		    JOptionPane.showMessageDialog(this, "El código del cliente no existe.");
+		} else if (l == null) {
+		    JOptionPane.showMessageDialog(this, "El código del libro no existe.");
+		} else {
+		    if(c.BuscarLibro(codigolibro)!= null) { 
+		    	JOptionPane.showMessageDialog(this, "El cliente ya tiene este libro rentado.");
+		    }else if (l.getStock() <= 0) {
+		    	JOptionPane.showMessageDialog(this, "No hay stock disponible, no puede rentar el libro");
+		    }else if(c.TamañoLibrosRentados() >= 3){
+		    	JOptionPane.showMessageDialog(this, "El cliente ya tiene 3 libros rentados. Debe devolver uno antes de rentar otro.");
+		    }
+		    else {
+		    	
+		    	l.DisminuirStock();
+		    	l.setFecha(LocalDate.now());
+		        c.AgregarLibroRentado(l);
+		        JOptionPane.showMessageDialog(this, "Libro rentado correctamente por " + c.getNombre());
+		        Listadolibrospararentar(admin.ObtenerListaGlobal());
+		    }
+		    
+		    
 		}
 	}
 }
