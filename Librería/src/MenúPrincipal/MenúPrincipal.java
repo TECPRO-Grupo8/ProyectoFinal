@@ -5,15 +5,26 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import Clase.Libro;
+import Hijos.Administrador;
+import Hijos.Cliente;
+
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.DefaultComboBoxModel;
+import java.awt.event.ItemListener;
+import java.util.List;
+import java.awt.event.ItemEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
-public class MenúPrincipal extends JFrame {
+public class MenúPrincipal extends JFrame implements ItemListener, ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -49,7 +60,7 @@ public class MenúPrincipal extends JFrame {
 	private JButton btnDevolverLibro;
 	private JScrollPane scrollPane_1;
 	private JButton btnVerLibrosEn;
-	private JTextArea textArea;
+	private JTextArea txtS1;
 	private JTextArea txtS2;
 
 	/**
@@ -147,11 +158,13 @@ public class MenúPrincipal extends JFrame {
 			}
 			{
 				btnAgregar = new JButton("Agregar nuevo Libro");
+				btnAgregar.addActionListener(this);
 				btnAgregar.setBounds(375, 85, 192, 23);
 				contentPane_1.add(btnAgregar);
 			}
 			{
 				btnBuscar = new JButton("Buscar Cliente Registrado");
+				btnBuscar.addActionListener(this);
 				btnBuscar.setEnabled(false);
 				btnBuscar.setBounds(375, 115, 192, 23);
 				contentPane_1.add(btnBuscar);
@@ -194,6 +207,7 @@ public class MenúPrincipal extends JFrame {
 			}
 			{
 				combo1 = new JComboBox();
+				combo1.addItemListener(this);
 				combo1.setModel(new DefaultComboBoxModel(new String[] {"Agregar nuevo Libro", "Buscar Cliente Registrado", "Sancionar Cliente ", "Eliminar Cliente", "Listar Clientes", "Listar Libros"}));
 				combo1.setBounds(375, 47, 192, 22);
 				contentPane_1.add(combo1);
@@ -254,8 +268,8 @@ public class MenúPrincipal extends JFrame {
 				scrollPane_1.setBounds(341, 350, 583, 327);
 				contentPane_1.add(scrollPane_1);
 				{
-					textArea = new JTextArea();
-					scrollPane_1.setViewportView(textArea);
+					txtS1 = new JTextArea();
+					scrollPane_1.setViewportView(txtS1);
 				}
 			}
 			{
@@ -264,5 +278,257 @@ public class MenúPrincipal extends JFrame {
 				contentPane_1.add(btnVerLibrosEn);
 			}
 		}
+	}
+	public void itemStateChanged(ItemEvent e) {
+		if (e.getSource() == combo1) {
+			do_combo1_itemStateChanged(e);
+		}
+	}
+	protected void do_combo1_itemStateChanged(ItemEvent e) {
+		int indice = combo1.getSelectedIndex();
+		switch(indice) {
+		case 0:
+			txtNuevoNombre.setEditable(true);
+			txtNuevoCodigo.setEditable(true);
+			txtAutor.setEditable(true);
+			txtEditorial.setEditable(true);
+			txtStock.setEditable(true);
+			txtCliente.setEditable(false);
+			
+			
+			btnAgregar.setEnabled(true);
+			btnBuscar.setEnabled(false);
+			btnSancionar.setEnabled(false);
+			btnEliminar.setEnabled(false);
+			btnListarCliente.setEnabled(false);
+			btnStock.setEnabled(false);
+			
+			
+			VaciarAdministrador();
+			break;
+		case 1:
+			txtNuevoNombre.setEditable(false);
+			txtNuevoCodigo.setEditable(false);
+			txtAutor.setEditable(false);
+			txtEditorial.setEditable(false);
+			txtStock.setEditable(false);
+			txtCliente.setEditable(true);
+			
+			
+			btnAgregar.setEnabled(false);
+			btnBuscar.setEnabled(true);
+			btnSancionar.setEnabled(false);
+			btnEliminar.setEnabled(false);
+			btnListarCliente.setEnabled(false);
+			btnStock.setEnabled(false);
+			
+			
+			VaciarAdministrador();
+			break;
+		case 2:
+			txtNuevoNombre.setEditable(false);
+			txtNuevoCodigo.setEditable(false);
+			txtAutor.setEditable(false);
+			txtEditorial.setEditable(false);
+			txtStock.setEditable(false);
+			txtCliente.setEditable(true);
+			
+			
+			btnAgregar.setEnabled(false);
+			btnBuscar.setEnabled(false);
+			btnSancionar.setEnabled(true);
+			btnEliminar.setEnabled(false);
+			btnListarCliente.setEnabled(false);
+			btnStock.setEnabled(false);
+			
+			
+			VaciarAdministrador();
+			break;
+		case 3:
+			txtNuevoNombre.setEditable(false);
+			txtNuevoCodigo.setEditable(false);
+			txtAutor.setEditable(false);
+			txtEditorial.setEditable(false);
+			txtStock.setEditable(false);
+			txtCliente.setEditable(true);
+			
+			
+			btnAgregar.setEnabled(false);
+			btnBuscar.setEnabled(false);
+			btnSancionar.setEnabled(false);
+			btnEliminar.setEnabled(true);
+			btnListarCliente.setEnabled(false);
+			btnStock.setEnabled(false);
+			
+			
+			VaciarAdministrador();
+			break;
+		case 4:
+			txtNuevoNombre.setEditable(false);
+			txtNuevoCodigo.setEditable(false);
+			txtAutor.setEditable(false);
+			txtEditorial.setEditable(false);
+			txtStock.setEditable(false);
+			txtCliente.setEditable(false);
+			
+			
+			btnAgregar.setEnabled(false);
+			btnBuscar.setEnabled(false);
+			btnSancionar.setEnabled(false);
+			btnEliminar.setEnabled(false);
+			btnListarCliente.setEnabled(true);
+			btnStock.setEnabled(false);
+			
+			
+			VaciarAdministrador();
+			break;
+		case 5:
+			txtNuevoNombre.setEditable(false);
+			txtNuevoCodigo.setEditable(false);
+			txtAutor.setEditable(false);
+			txtEditorial.setEditable(false);
+			txtStock.setEditable(false);
+			txtCliente.setEditable(false);
+			
+			
+			btnAgregar.setEnabled(false);
+			btnBuscar.setEnabled(false);
+			btnSancionar.setEnabled(false);
+			btnEliminar.setEnabled(false);
+			btnListarCliente.setEnabled(false);
+			btnStock.setEnabled(true);
+			
+			
+			VaciarAdministrador();
+			break;
+			
+		}
+	}
+	
+	void VaciarAdministrador() {
+		txtNuevoNombre.setText("");
+		txtNuevoCodigo.setText("");
+		txtAutor.setText("");
+		txtEditorial.setText("");
+		txtStock.setText("");
+		txtCliente.setText("");
+	}
+	
+	Administrador admin = new Administrador("RobertoAdmin",123);
+	
+	void ImprimirAdmin(String x) {
+		txtS1.append(x + "\n");
+	}
+	void ImprimirClien(String x) {
+		txtS2.append(x + "\n");
+	}
+	int LeerNuevoCodigo () {
+		return Integer.parseInt(txtNuevoCodigo.getText());
+	}
+	int LeerNuevoStock () {
+		return  Integer.parseInt(txtStock.getText());
+	}
+	int LeerCodigoCliente() {
+		return Integer.parseInt(txtCliente.getText());
+	}
+	String LeerNuevoLibro() {
+		return txtNuevoNombre.getText();
+	}
+	String LeerAutor() {
+		return txtAutor.getText();
+	}
+	String LeerEditorial() {
+		return txtEditorial.getText();
+	}
+	int LeerCodigoClienteExistente() {
+		return Integer.parseInt(txtCodigoClienteExistente.getText());
+	}
+	int LeerCodigoLibroExistente() {
+		return Integer.parseInt(txtCodigoLibro.getText()); 
+	}
+	
+	void VaciarCliente() {
+		txtCodigoClienteExistente.setText("");
+		txtCodigoLibro.setText("");
+	}
+	void Listadolibrospararentar(List<Libro> libroglobal) {
+		txtS2.setText("");
+		ImprimirClien("Código Libro \tNombre Libro\tStock");
+		 for (Libro l : libroglobal) {
+			 ImprimirClien(l.getCodigoLibro() + "\t" + l.getNombreLibro()+ "\t" + l.getStock());
+		 }
+	}
+	void ListadoLibrosAdmintrador(List<Libro> libroglobal) {
+		txtS1.setText("");
+		ImprimirAdmin("Código Libro \tNombre Libro\tAutor\tEditorial\tStock");
+		 for (Libro l : libroglobal) {
+			 ImprimirAdmin(l.getCodigoLibro() + "\t" + l.getNombreLibro()+ "\t" + l.getAutor()+ "\t" + l.getEditorial()+ "\t" + l.getStock());
+		 }
+	}
+	void ListadoClientesGlobales(List<Cliente>clien) {
+		txtS1.setText("");
+		ImprimirAdmin("Codigo Cliente\tNombre del Cliente   Número de sanciones\tLibro 1\tLibro 2\tLibro 3");
+		
+		for(Cliente cl : clien) {
+			String texto = cl.getCodigoCliente() + "\t" + cl.getNombre() + "\t\t" + cl.getContadorSanciones();
+			
+			for(int i = 0; i < 3;i++) {
+				
+				if( i < cl.TamañoLibrosRentados()) {
+					texto += "\t" + cl.ObtenerLibroRentado(i).getNombreLibro();
+				}else {
+					texto += "\t-";
+				}
+			}
+			
+			ImprimirAdmin(texto);
+		}
+	}
+	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == btnBuscar) {
+			do_btnBuscar_actionPerformed(e);
+		}
+		if (e.getSource() == btnAgregar) {
+			do_btnAgregar_actionPerformed(e);
+		}
+	}
+	protected void do_btnAgregar_actionPerformed(ActionEvent e) {
+		int codigolibro = -1;
+		int stock = -1;
+		
+		try {
+		    codigolibro = LeerNuevoCodigo();
+		} catch (Exception e2) {
+		    JOptionPane.showMessageDialog(this, "El código del libro debe ser un número entero.");
+		    return;
+		}
+		
+		String nombrelibro = LeerNuevoLibro();
+		String autor = LeerAutor();
+		String editorial =LeerEditorial(); 
+		
+		try {
+		    stock = LeerNuevoStock();
+		} catch (Exception e2) {
+		    JOptionPane.showMessageDialog(this, "El stock debe ser un número entero.");
+		    return;
+		}
+		if(stock <= 0) {
+			JOptionPane.showMessageDialog(this, "No se admite una cantidad de stock menor igual a 0");
+		}else {
+			Libro li = admin.BuscarLibroGlobal(codigolibro);
+			
+			if(li == null) {
+				Libro libro = new Libro(codigolibro,nombrelibro,autor,editorial,stock,null);
+				admin.AgregarLibroGlobales(libro);
+				VaciarAdministrador();
+				JOptionPane.showMessageDialog(this, "Nuevo libro registrado correctamaente");
+			}else {
+				JOptionPane.showMessageDialog(this, "Ya existe un libro con el mismo código, pruebe con otro");
+			}	
+		}
+	}
+	protected void do_btnBuscar_actionPerformed(ActionEvent e) {
+		
 	}
 }
