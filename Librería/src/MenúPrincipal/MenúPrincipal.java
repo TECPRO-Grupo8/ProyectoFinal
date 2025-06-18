@@ -190,12 +190,14 @@ public class MenúPrincipal extends JFrame implements ItemListener, ActionListen
 			}
 			{
 				btnEliminar = new JButton("Eliminar Cliente");
+				btnEliminar.addActionListener(this);
 				btnEliminar.setEnabled(false);
 				btnEliminar.setBounds(374, 183, 193, 23);
 				contentPane_1.add(btnEliminar);
 			}
 			{
 				btnListarCliente = new JButton("Listar Clientes");
+				btnListarCliente.addActionListener(this);
 				btnListarCliente.setEnabled(false);
 				btnListarCliente.setBounds(375, 217, 193, 23);
 				contentPane_1.add(btnListarCliente);
@@ -486,6 +488,12 @@ public class MenúPrincipal extends JFrame implements ItemListener, ActionListen
 		}
 	}
 	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == btnListarCliente) {
+			do_btnListarCliente_actionPerformed(e);
+		}
+		if (e.getSource() == btnEliminar) {
+			do_btnEliminar_actionPerformed(e);
+		}
 		if (e.getSource() == btnSancionar) {
 			do_btnSancionar_actionPerformed(e);
 		}
@@ -589,6 +597,18 @@ txtS1.setText("");
 			JOptionPane.showMessageDialog(this, "Cliente eliminado exitosamente" + c.getNombre());
 			admin.EliminarUsuarioRegistrado(c);
 			
+		}
+	}
+	protected void do_btnListarCliente_actionPerformed(ActionEvent e) {
+		ListadoClientesGlobales(admin.ObtenerListaClientesGlobal());
+	}
+	protected void do_btnStock_actionPerformed(ActionEvent e) {
+		
+		if(admin.TamañoLibroGlobales() == 0) {
+			JOptionPane.showMessageDialog(this, "No hay libros ingresados.");
+		}else {
+			
+			ListadoLibrosAdmintrador(admin.ObtenerListaGlobal());
 		}
 	}
 }
