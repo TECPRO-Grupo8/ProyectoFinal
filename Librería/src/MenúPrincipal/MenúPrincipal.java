@@ -183,6 +183,7 @@ public class MenúPrincipal extends JFrame implements ItemListener, ActionListen
 			}
 			{
 				btnSancionar = new JButton("Sancionar Cliente");
+				btnSancionar.addActionListener(this);
 				btnSancionar.setEnabled(false);
 				btnSancionar.setBounds(375, 149, 193, 23);
 				contentPane_1.add(btnSancionar);
@@ -485,6 +486,9 @@ public class MenúPrincipal extends JFrame implements ItemListener, ActionListen
 		}
 	}
 	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == btnSancionar) {
+			do_btnSancionar_actionPerformed(e);
+		}
 		if (e.getSource() == btnBuscar) {
 			do_btnBuscar_actionPerformed(e);
 		}
@@ -554,6 +558,36 @@ txtS1.setText("");
 				VaciarAdministrador();
 			}
 			
+			
+		}
+	}
+	protected void do_btnSancionar_actionPerformed(ActionEvent e) {
+		
+txtS1.setText("");
+		
+		int codigocliente = LeerCodigoCliente();
+		
+		Cliente c = admin.BuscarUsuarioRegistrado(codigocliente);
+		
+		if(c == null) {
+			JOptionPane.showMessageDialog(this, "El usuario que busca no existe");
+		}else {
+			admin.SancionarCliente(c);
+			JOptionPane.showMessageDialog(this, "Cliente sancionado: "+c.getNombre());
+		}
+	}
+	protected void do_btnEliminar_actionPerformed(ActionEvent e) {
+        txtS1.setText("");
+		
+		int codigocliente = LeerCodigoCliente();
+		
+		Cliente c = admin.BuscarUsuarioRegistrado(codigocliente);
+		
+		if(c == null) {
+			JOptionPane.showMessageDialog(this, "El usuario que busca no existe");
+		}else {
+			JOptionPane.showMessageDialog(this, "Cliente eliminado exitosamente" + c.getNombre());
+			admin.EliminarUsuarioRegistrado(c);
 			
 		}
 	}
