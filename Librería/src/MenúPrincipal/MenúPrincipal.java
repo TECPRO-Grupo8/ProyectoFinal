@@ -281,6 +281,7 @@ public class MenúPrincipal extends JFrame implements ItemListener, ActionListen
 			}
 			{
 				btnVerLibrosEn = new JButton("Ver Libros en STOCK");
+				btnVerLibrosEn.addActionListener(this);
 				btnVerLibrosEn.setBounds(47, 545, 192, 23);
 				contentPane_1.add(btnVerLibrosEn);
 			}
@@ -492,6 +493,9 @@ public class MenúPrincipal extends JFrame implements ItemListener, ActionListen
 		}
 	}
 	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == btnVerLibrosEn) {
+			do_btnVerLibrosEn_actionPerformed(e);
+		}
 		if (e.getSource() == btnDevolverLibro) {
 			do_btnDevolverLibro_actionPerformed(e);
 		}
@@ -680,6 +684,13 @@ txtS1.setText("");
 		        ListadoLibrosAdmintrador(admin.ObtenerListaGlobal());
 		        Listadolibrospararentar(admin.ObtenerListaGlobal());
 		    }
+		}
+	}
+	protected void do_btnVerLibrosEn_actionPerformed(ActionEvent e) {
+		if(admin.TamañoLibroGlobales() == 0) {
+			JOptionPane.showMessageDialog(this, "No hay libros dsiponibles");
+		}else {
+			Listadolibrospararentar(admin.ObtenerListaGlobal());
 		}
 	}
 }
